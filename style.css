@@ -1,3 +1,24 @@
+body,
+html {
+   text-align: center;
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #7c7c7c;
+}
+
+#container {
+   background-color: #ffffff;
+   padding: 20px;
+   box-shadow: 1px 1px 20px 0px rgba(0, 0, 0, 0.7);
+}
+
 .bar:hover {
    opacity: 0.8;
+}
+
+.small {
+   font-size: 12px;
 }

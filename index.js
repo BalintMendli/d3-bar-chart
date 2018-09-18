@@ -22,17 +22,17 @@ document.addEventListener('DOMContentLoaded', function() {
          }
          gdp.push([new Date(element[0]), Number(element[1]), datesplit[0] + ' ' + quarter]);
       });
-      console.log(gdp);
 
       d3.select('#container')
          .append('h1')
-         .text('United States GDP');
+         .text('United States GDP')
+         .attr('id','title');
 
       const w = 900;
       const h = 500;
 
       const svg = d3
-         .select('body')
+         .select('#container')
          .append('svg')
          .attr('width', w)
          .attr('height', h);
@@ -54,27 +54,44 @@ document.addEventListener('DOMContentLoaded', function() {
          .data(gdp)
          .enter()
          .append('rect')
-         .attr('x', (d, i) => xScale(d[0]))
+         .attr('x', d => xScale(d[0]))
          .attr('y', d => yScale(d[1]))
          .attr('width', 3)
-         .attr('height', d => h-padding-yScale(d[1]))
+         .attr('height', d => h - padding - yScale(d[1]))
          .attr('fill', 'royalblue')
          .attr('class', 'bar')
          .append('title')
          .text(d => {
             return d[2] + '\n$' + d[1] + ' Billion';
-         });
+         })
+         .attr('id', 'tooltip');
 
       const xAxis = d3.axisBottom(xScale);
 
       svg.append("g")
          .attr("transform", "translate(0, " + (h - padding) + ")")
-         .call(xAxis);
+         .call(xAxis)
+         .attr('id', 'x-axis');
 
       const yAxis = d3.axisLeft(yScale);
 
       svg.append('g')
          .attr('transform', 'translate('+ padding + ',0)')
-         .call(yAxis);
+         .call(yAxis)
+         .attr('id', 'y-axis');
+
+      svg.append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 0 + padding)
+         .attr("x", 0 - (h / 3))
+         .attr("dy", "1.5em")
+         .style("text-anchor", "middle")
+         .text("Gross Domestic Product");      
+      
+      svg.append('text')
+         .attr('text-anchor', 'right')
+         .attr('transform', 'translate(' + (w - padding - 316) + ',' + (h-3) + ')')
+         .text('More Information: http://www.bea.gov/national/pdf/nipaguid.pdf')
+         .attr('class', 'small');
    });
 });
